@@ -1,4 +1,11 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity()
 export class Scope {
@@ -6,11 +13,14 @@ export class Scope {
   id: number;
 
   @Column()
-  firstName: string;
+  name: string;
 
-  @Column()
-  lastName: string;
+  @CreateDateColumn()
+  createdAt: Date;
 
-  @Column({ default: true })
-  isActive: boolean;
+  @UpdateDateColumn()
+  updatedAt: Date;
+
+  @DeleteDateColumn()
+  deletedAt?: Date;
 }
