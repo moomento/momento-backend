@@ -1,4 +1,4 @@
-import { Scope } from '../modules/scope/entities/scope.entity';
+import { join } from 'path';
 export default () => ({
   port: parseInt(process.env.PORT, 10) || 8000,
   database: {
@@ -8,6 +8,8 @@ export default () => ({
     username: process.env.TYPEORM_USERNAME,
     password: process.env.TYPEORM_PASSWORD,
     database: process.env.TYPEORM_DATABASE,
-    entities: [Scope],
+    entities: [join(__dirname, '..', '**', '*.entity.{ts,js}')],
+    synchronize: true,
+    dropSchema: true,
   },
 });

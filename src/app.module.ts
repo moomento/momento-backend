@@ -5,7 +5,8 @@ import { createConnection } from 'typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import configuration from './config/configuration';
-import { ScopeModule } from './modules/scope/scope.module';
+import { ScopesModule } from './modules/scopes/scopes.module';
+import { CategoriesModule } from './modules/categories/categories.module';
 
 @Module({
   imports: [
@@ -24,7 +25,8 @@ import { ScopeModule } from './modules/scope/scope.module';
         return connection;
       },
     }),
-    ScopeModule,
+    ScopesModule,
+    CategoriesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
