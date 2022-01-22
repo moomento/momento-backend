@@ -13,8 +13,8 @@ import { CreateScopeDto } from './dto/create-scope.dto';
 import { UpdateScopeDto } from './dto/update-scope.dto';
 import { ScopesService } from './scopes.service';
 
-import { SearchScopeDto } from './dto/search-scope.dto';
 import { Response as Res } from 'express';
+import { PaginationDto } from '../../pagination/pagination.dto';
 @Controller('scopes')
 export class ScopesController {
   constructor(private readonly scopesService: ScopesService) {}
@@ -25,7 +25,7 @@ export class ScopesController {
   }
 
   @Get()
-  async find(@Response() res: Res, @Query() data: SearchScopeDto) {
+  async find(@Response() res: Res, @Query() data: PaginationDto) {
     const [list, count] = await this.scopesService.paginate(data);
     return res.set({ 'x-total-count': count }).json(list);
   }

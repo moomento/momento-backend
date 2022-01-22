@@ -1,9 +1,14 @@
 import { Injectable } from '@nestjs/common';
+import { PaginationService } from 'src/pagination/pagination.service';
+import { Repository, ObjectLiteral } from 'typeorm';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 
 @Injectable()
-export class CategoriesService {
+export class CategoriesService extends PaginationService {
+  getRepository(): Repository<ObjectLiteral> {
+    throw new Error('Method not implemented.');
+  }
   create(createCategoryDto: CreateCategoryDto) {
     return 'This action adds a new category';
   }

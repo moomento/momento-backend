@@ -1,35 +1,29 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { PaginationService } from '../../pagination/pagination.service';
 
-import { FindManyOptions, Repository } from 'typeorm';
+import { ObjectLiteral, Repository } from 'typeorm';
 import { CreateScopeDto } from './dto/create-scope.dto';
-import { SearchScopeDto } from './dto/search-scope.dto';
 import { UpdateScopeDto } from './dto/update-scope.dto';
 import { Scope } from './entities/scope.entity';
 
 @Injectable()
-export class ScopesService {
+export class ScopesService extends PaginationService {
   constructor(
     @InjectRepository(Scope)
     private scopesRepository: Repository<Scope>,
-  ) {}
+  ) {
+    super();
+  }
+
+  getRepository(): Repository<ObjectLiteral> {
+    return this.scopesRepository;
+  }
 
   async create(data: CreateScopeDto): Promise<Scope> {
     const scope = this.scopesRepository.create(data);
     await this.scopesRepository.save(data);
     return scope;
-  }
-
-  async paginate(data: SearchScopeDto) {
-    const { take, skip } = data;
-    const options = {
-      order: {
-        createdAt: 'DESC',
-      },
-      take,
-      skip,
-    } as FindManyOptions<Scope>;
-    return await this.scopesRepository.findAndCount(options);
   }
 
   findOne(id: number): Promise<Scope> {

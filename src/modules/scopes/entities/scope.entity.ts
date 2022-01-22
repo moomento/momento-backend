@@ -17,9 +17,6 @@ export class Scope {
   @Column()
   name: string;
 
-  @OneToMany(() => Category, (category) => category.scope)
-  categories: Category[];
-
   @CreateDateColumn()
   createdAt: Date;
 
@@ -28,4 +25,7 @@ export class Scope {
 
   @DeleteDateColumn()
   deletedAt?: Date;
+
+  @OneToMany(() => Category, (category) => category.scope)
+  categories: Category[];
 }
