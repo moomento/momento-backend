@@ -1,3 +1,22 @@
+@baseUri = http://localhost:8000
+@contentType = application/json
 
-##
-GET http://localhost:8000/regions HTTP/1.1
+########
+GET {{baseUri}}/regions?skip=0 HTTP/1.1
+
+########
+POST {{baseUri}}/regions HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+    "name": "England"
+}
+
+########
+PATCH {{baseUri}}/regions/3 HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+    "name": "Italy",
+    "description": "Italy is located in south-western europe."
+}

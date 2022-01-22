@@ -1,0 +1,23 @@
+@baseUri = http://localhost:8000
+@contentType = application/json
+
+########
+GET {{baseUri}}/categories?skip=0 HTTP/1.1
+
+########
+POST {{baseUri}}/categories HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+    "name": "Football"
+}
+
+########
+PATCH {{baseUri}}/categories/1 HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+    "name": "Italy",
+    "description": "Italy is located in south-western europe.",
+    "scopeId": 1
+}

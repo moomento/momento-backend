@@ -1,31 +1,46 @@
 import { Injectable } from '@nestjs/common';
-import { PaginationService } from 'src/pagination/pagination.service';
+import { InjectRepository } from '@nestjs/typeorm';
+import { PaginationService } from '../../pagination/pagination.service';
 import { Repository, ObjectLiteral } from 'typeorm';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
+import { Category } from './entities/category.entity';
 
 @Injectable()
 export class CategoriesService extends PaginationService {
+  constructor(
+    @InjectRepository(Category)
+    private repository: Repository<Category>,
+  ) {
+    super();
+  }
+
   getRepository(): Repository<ObjectLiteral> {
-    throw new Error('Method not implemented.');
-  }
-  create(createCategoryDto: CreateCategoryDto) {
-    return 'This action adds a new category';
+    return this.repository;
   }
 
-  findAll() {
-    return `This action returns all categories`;
+  async create(data: CreateCategoryDto): Promise<Category> {
+    const category = this.repository.create(data);
+    await this.repository.save(data);
+    return category;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} category`;
+  findOne(id: number): Promise<Category> {
+    return this.repository.findOne(id);
   }
 
-  update(id: number, updateCategoryDto: UpdateCategoryDto) {
-    return `This action updates a #${id} category`;
+  async update(id: number, data: UpdateCategoryDto) {
+    await this.repository.update({ id }, data);
+    return await this.repository.findOne({ id });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} category`;
+  async remove(id: number) {
+    const result = await this.repository.softDelete(id);
+    return result.affected > 0;
+  }
+
+  async destroy(id: number) {
+    const result = await this.repository.delete(id);
+    return result.affected > 0;
   }
 }

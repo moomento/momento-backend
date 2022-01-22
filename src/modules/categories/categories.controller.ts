@@ -6,7 +6,11 @@ import {
   Patch,
   Param,
   Delete,
+  Response,
+  Query,
 } from '@nestjs/common';
+import { Response as Res } from 'express';
+import { PaginationDto } from '../../pagination/pagination.dto';
 import { CategoriesService } from './categories.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
@@ -21,8 +25,9 @@ export class CategoriesController {
   }
 
   @Get()
-  findAll() {
-    return this.categoriesService.findAll();
+  async find(@Response() res: Res, @Query() data: PaginationDto) {
+    const [list, count] = await this.categoriesService.paginate(data);
+    return res.set({ 'x-total-count': count }).json(list);
   }
 
   @Get(':id')

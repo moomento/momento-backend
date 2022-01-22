@@ -7,4 +7,7 @@ export class CreateCategoryDto {
   @IsNumber()
   @IsNotEmpty()
   scopeId: number;
+
+  @IsNumber()
+  regionId?: number;
 }

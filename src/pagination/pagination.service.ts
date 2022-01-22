@@ -16,8 +16,8 @@ export abstract class PaginationService {
     const { take, skip, order, sort, ...params } = data;
     const repository = this.getRepository();
     const options = {
-      take,
-      skip,
+      take: take ? take : 10,
+      skip: skip ? skip : 0,
     } as FindManyOptions<ObjectLiteral>;
     return await repository.findAndCount(options);
   }
