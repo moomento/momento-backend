@@ -26,7 +26,6 @@ import { BidsModule } from './modules/bids/bids.module';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => {
-        console.log(configService.get('database'));
         return configService.get('database');
       },
       connectionFactory: async (options) => {

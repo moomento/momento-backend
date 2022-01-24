@@ -16,5 +16,13 @@ describe('ScopesController', () => {
 
   it('should be defined', () => {
     expect(controller).toBeDefined();
+    controller.create({
+      name: 'Sports',
+    });
+    controller.findOne('1');
+    controller.update('1', {
+      name: 'Sports',
+      content: 'Sports is playing with body.',
+    });
   });
 });

@@ -23,7 +23,7 @@ export class Team {
   logoUrl: string;
 
   @Column({ nullable: true, type: 'text' })
-  description: string;
+  content: string;
 
   @ManyToOne(() => Category, (category) => category.teams)
   category: Category;

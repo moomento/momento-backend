@@ -18,7 +18,7 @@ export class Scope {
   name: string;
 
   @Column({ nullable: true, type: 'text' })
-  description?: string;
+  content?: string;
 
   @OneToMany(() => Category, (category) => category.scope)
   categories: Category[];

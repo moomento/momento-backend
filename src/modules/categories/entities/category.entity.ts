@@ -14,6 +14,7 @@ import {
 } from 'typeorm';
 import { Region } from '../../regions/entities/region.entity';
 import { Team } from '../../teams/entities/team.entity';
+import { Event } from '../../events/entities/event.entity';
 
 @Entity('categories')
 @Tree('materialized-path')
@@ -25,7 +26,7 @@ export class Category {
   name: string;
 
   @Column({ nullable: true, type: 'text' })
-  description: string;
+  content: string;
 
   @ManyToOne(() => Scope, (scope) => scope.categories)
   scope: Scope;
@@ -41,6 +42,9 @@ export class Category {
 
   @OneToMany(() => Category, (category) => category.teams)
   teams: Team[];
+
+  @OneToMany(() => Category, (category) => category.events)
+  events: Event[];
 
   @TreeParent()
   parent: Category;

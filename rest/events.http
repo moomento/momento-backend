@@ -2,23 +2,23 @@
 @contentType = application/json
 
 ########
-GET {{baseUri}}/categories?skip=0 HTTP/1.1
+GET {{baseUri}}/events?skip=0 HTTP/1.1
 
 ########
-GET {{baseUri}}/categories/5 HTTP/1.1
+GET {{baseUri}}/events/1 HTTP/1.1
 
 ########
-POST {{baseUri}}/categories HTTP/1.1
+POST {{baseUri}}/events HTTP/1.1
 Content-Type: {{contentType}}
 
 {
-    "name": "Football",
-    "scopeId": 1,
+    "name": "Real Madrid vs Barcelona",
+    "categoryId": 1,
     "parentId": 1
 }
 
 ########
-PATCH {{baseUri}}/categories/1 HTTP/1.1
+PATCH {{baseUri}}/events/1 HTTP/1.1
 Content-Type: {{contentType}}
 
 {

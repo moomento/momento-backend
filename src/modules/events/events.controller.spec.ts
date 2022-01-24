@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { EventsController } from './events.controller';
 import { EventsService } from './events.service';
 
@@ -7,6 +8,8 @@ describe('EventsController', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
+      imports: [TypeOrmModule.forFeature([Event])],
+      exports: [TypeOrmModule],
       controllers: [EventsController],
       providers: [EventsService],
     }).compile();

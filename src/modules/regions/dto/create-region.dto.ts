@@ -5,5 +5,5 @@ export class CreateRegionDto {
   name: string;
 
   @IsString()
-  description: string;
+  content?: string;
 }

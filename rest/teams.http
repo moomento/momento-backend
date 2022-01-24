@@ -14,7 +14,7 @@ Content-Type: {{contentType}}
 {
     "name": "Real Madrid FC",
     "symbol": "RM",
-    "description": "Real Madrid CF",
+    "content": "Real Madrid CF",
     "categoryId": 1
 }
 
@@ -25,7 +25,7 @@ Content-Type: {{contentType}}
 {
     "name": "Real Madrid FC",
     "symbol": "Real Madrid",
-    "description": "Real Madrid FC is football club in Madrid, Spain."
+    "content": "Real Madrid FC is football club in Madrid, Spain."
 }
 
 ########

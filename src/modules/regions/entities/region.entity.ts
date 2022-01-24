@@ -1,4 +1,4 @@
-import { Category } from 'src/modules/categories/entities/category.entity';
+import { Category } from '../../categories/entities/category.entity';
 import {
   Column,
   CreateDateColumn,
@@ -18,7 +18,7 @@ export class Region {
   name: string;
 
   @Column({ nullable: true, type: 'text' })
-  description: string;
+  content: string;
 
   @CreateDateColumn()
   createdAt: Date;
