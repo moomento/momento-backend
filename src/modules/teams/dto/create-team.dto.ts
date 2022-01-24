@@ -9,6 +9,8 @@ export class CreateTeamDto {
   @IsNotEmpty()
   symbol: string;
 
+  content?: string;
+
   @IsNumber()
   @IsNotEmpty()
   categoryId: number;

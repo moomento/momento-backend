@@ -25,4 +25,10 @@ export class CreateEventDto {
 
   @IsEnum(EventStatus)
   status: EventStatus;
+
+  @IsNumber()
+  homeTeamId?: number;
+
+  @IsNumber()
+  awayTeamId?: number;
 }
