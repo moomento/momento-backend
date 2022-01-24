@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { ObjectLiteral, Repository } from 'typeorm';
 import { PaginationService } from '../../pagination/pagination.service';
-import { Repository, ObjectLiteral } from 'typeorm';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { Category } from './entities/category.entity';
@@ -21,16 +21,18 @@ export class CategoriesService extends PaginationService {
 
   async create(data: CreateCategoryDto): Promise<Category> {
     const category = this.repository.create(data);
-    await this.repository.save(data);
+    await this.repository.save(category);
     return category;
   }
 
   findOne(id: number): Promise<Category> {
-    return this.repository.findOne(id);
+    return this.repository.findOne(id, {
+      relations: ['scope', 'region', 'parent'],
+    });
   }
 
-  async update(id: number, data: UpdateCategoryDto) {
-    await this.repository.update({ id }, data);
+  async update(id: number, dto: UpdateCategoryDto) {
+    await this.repository.update({ id }, dto);
     return await this.repository.findOne({ id });
   }
 

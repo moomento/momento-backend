@@ -10,14 +10,37 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   DeleteDateColumn,
+  OneToMany,
 } from 'typeorm';
-import { Region } from 'src/modules/regions/entities/region.entity';
+import { Region } from '../../regions/entities/region.entity';
+import { Team } from '../../teams/entities/team.entity';
 
 @Entity('categories')
-@Tree('nested-set')
+@Tree('materialized-path')
 export class Category {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @Column()
+  name: string;
+
+  @Column({ nullable: true, type: 'text' })
+  description: string;
+
+  @ManyToOne(() => Scope, (scope) => scope.categories)
+  scope: Scope;
+
+  @Column({ nullable: true })
+  scopeId?: number;
+
+  @ManyToOne(() => Region, (region) => region.categories)
+  region: Region;
+
+  @Column({ nullable: true })
+  regionId?: number;
+
+  @OneToMany(() => Category, (category) => category.teams)
+  teams: Team[];
 
   @TreeParent()
   parent: Category;
@@ -25,11 +48,8 @@ export class Category {
   @TreeChildren()
   children: Category[];
 
-  @Column({ length: 200 })
-  name: string;
-
-  @Column({ nullable: true, type: 'text' })
-  description: string;
+  @Column({ nullable: true })
+  parentId: number;
 
   @CreateDateColumn()
   createdAt: Date;
@@ -39,10 +59,4 @@ export class Category {
 
   @DeleteDateColumn()
   deletedAt?: Date;
-
-  @ManyToOne(() => Scope, (scope) => scope.categories)
-  scope: Scope;
-
-  @ManyToOne(() => Region, (region) => region.categories)
-  region: Region;
 }

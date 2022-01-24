@@ -20,8 +20,8 @@ export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}
 
   @Post()
-  create(@Body() createCategoryDto: CreateCategoryDto) {
-    return this.categoriesService.create(createCategoryDto);
+  create(@Body() data: CreateCategoryDto) {
+    return this.categoriesService.create(data);
   }
 
   @Get()
@@ -36,11 +36,8 @@ export class CategoriesController {
   }
 
   @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateCategoryDto: UpdateCategoryDto,
-  ) {
-    return this.categoriesService.update(+id, updateCategoryDto);
+  update(@Param('id') id: string, @Body() data: UpdateCategoryDto) {
+    return this.categoriesService.update(+id, data);
   }
 
   @Delete(':id')

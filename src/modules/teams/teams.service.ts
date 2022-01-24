@@ -1,26 +1,48 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { ObjectLiteral, Repository } from 'typeorm';
+import { PaginationService } from '../../pagination/pagination.service';
 import { CreateTeamDto } from './dto/create-team.dto';
 import { UpdateTeamDto } from './dto/update-team.dto';
+import { Team } from './entities/team.entity';
 
 @Injectable()
-export class TeamsService {
-  create(createTeamDto: CreateTeamDto) {
-    return 'This action adds a new team';
+export class TeamsService extends PaginationService {
+  constructor(
+    @InjectRepository(Team)
+    private repository: Repository<Team>,
+  ) {
+    super();
   }
 
-  findAll() {
-    return `This action returns all teams`;
+  getRepository(): Repository<ObjectLiteral> {
+    return this.repository;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} team`;
+  async create(data: CreateTeamDto): Promise<Team> {
+    const team = this.repository.create(data);
+    await this.repository.save(team);
+    return team;
   }
 
-  update(id: number, updateTeamDto: UpdateTeamDto) {
-    return `This action updates a #${id} team`;
+  findOne(id: number): Promise<Team> {
+    return this.repository.findOne(id, {
+      relations: ['category', 'category.scope', 'category.region'],
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} team`;
+  async update(id: number, dto: UpdateTeamDto) {
+    await this.repository.update({ id }, dto);
+    return await this.repository.findOne({ id });
+  }
+
+  async remove(id: number) {
+    const result = await this.repository.softDelete(id);
+    return result.affected > 0;
+  }
+
+  async destroy(id: number) {
+    const result = await this.repository.delete(id);
+    return result.affected > 0;
   }
 }

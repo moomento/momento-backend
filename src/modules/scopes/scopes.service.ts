@@ -22,7 +22,7 @@ export class ScopesService extends PaginationService {
 
   async create(data: CreateScopeDto): Promise<Scope> {
     const scope = this.scopesRepository.create(data);
-    await this.scopesRepository.save(data);
+    await this.scopesRepository.save(scope);
     return scope;
   }
 

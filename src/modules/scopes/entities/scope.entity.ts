@@ -17,6 +17,12 @@ export class Scope {
   @Column()
   name: string;
 
+  @Column({ nullable: true, type: 'text' })
+  description?: string;
+
+  @OneToMany(() => Category, (category) => category.scope)
+  categories: Category[];
+
   @CreateDateColumn()
   createdAt: Date;
 
@@ -25,7 +31,4 @@ export class Scope {
 
   @DeleteDateColumn()
   deletedAt?: Date;
-
-  @OneToMany(() => Category, (category) => category.scope)
-  categories: Category[];
 }

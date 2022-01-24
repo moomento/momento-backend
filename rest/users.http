@@ -1,0 +1,22 @@
+@baseUri = http://localhost:8000
+@contentType = application/json
+
+########
+GET {{baseUri}}/users?skip=0 HTTP/1.1
+
+########
+POST {{baseUri}}/users HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+    "address": "0xF7D9b6f01ebBbA24A6B3123C9C7ECf787E2DB46A"
+}
+
+########
+PATCH {{baseUri}}/users/1 HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+    "firstName": "Nick",
+    "lastName": "Jang"
+}

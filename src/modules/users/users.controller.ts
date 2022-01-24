@@ -1,20 +1,33 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { UsersService } from './users.service';
+import {
+  Query,
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Response,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { UsersService } from './users.service';
 
+import { Response as Res } from 'express';
+import { PaginationDto } from '../../pagination/pagination.dto';
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
+  create(@Body() data: CreateUserDto) {
+    return this.usersService.create(data);
   }
 
   @Get()
-  findAll() {
-    return this.usersService.findAll();
+  async find(@Response() res: Res, @Query() data: PaginationDto) {
+    const [list, count] = await this.usersService.paginate(data);
+    return res.set({ 'x-total-count': count }).json(list);
   }
 
   @Get(':id')
@@ -23,8 +36,8 @@ export class UsersController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(+id, updateUserDto);
+  update(@Param('id') id: string, @Body() data: UpdateUserDto) {
+    return this.usersService.update(+id, data);
   }
 
   @Delete(':id')

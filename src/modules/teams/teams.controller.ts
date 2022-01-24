@@ -1,4 +1,16 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Response,
+  Query,
+} from '@nestjs/common';
+import { Response as Res } from 'express';
+import { PaginationDto } from '../../pagination/pagination.dto';
 import { TeamsService } from './teams.service';
 import { CreateTeamDto } from './dto/create-team.dto';
 import { UpdateTeamDto } from './dto/update-team.dto';
@@ -8,13 +20,14 @@ export class TeamsController {
   constructor(private readonly teamsService: TeamsService) {}
 
   @Post()
-  create(@Body() createTeamDto: CreateTeamDto) {
-    return this.teamsService.create(createTeamDto);
+  create(@Body() data: CreateTeamDto) {
+    return this.teamsService.create(data);
   }
 
   @Get()
-  findAll() {
-    return this.teamsService.findAll();
+  async find(@Response() res: Res, @Query() data: PaginationDto) {
+    const [list, count] = await this.teamsService.paginate(data);
+    return res.set({ 'x-total-count': count }).json(list);
   }
 
   @Get(':id')
@@ -23,8 +36,8 @@ export class TeamsController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTeamDto: UpdateTeamDto) {
-    return this.teamsService.update(+id, updateTeamDto);
+  update(@Param('id') id: string, @Body() data: UpdateTeamDto) {
+    return this.teamsService.update(+id, data);
   }
 
   @Delete(':id')

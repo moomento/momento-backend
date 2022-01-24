@@ -22,7 +22,7 @@ export class RegionsService extends PaginationService {
 
   async create(data: CreateRegionDto): Promise<Region> {
     const region = this.repository.create(data);
-    await this.repository.save(data);
+    await this.repository.save(region);
     return region;
   }
 

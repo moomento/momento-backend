@@ -9,7 +9,7 @@ export default () => ({
     password: process.env.TYPEORM_PASSWORD,
     database: process.env.TYPEORM_DATABASE,
     entities: [join(__dirname, '..', '**', '*.entity.{ts,js}')],
-    synchronize: true,
-    dropSchema: true,
+    synchronize: process.env.TYPEORM_SYNCHRONIZE === 'true',
+    dropSchema: process.env.TYPEORM_DROP_SCHEMA === 'true',
   },
 });
