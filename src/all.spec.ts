@@ -6,6 +6,9 @@ import configuration from './config/configuration';
 import { CategoriesController } from './modules/categories/categories.controller';
 import { CategoriesService } from './modules/categories/categories.service';
 import { Category } from './modules/categories/entities/category.entity';
+import { CollectionsController } from './modules/collections/collections.controller';
+import { CollectionsService } from './modules/collections/collections.service';
+import { Collection } from './modules/collections/entities/collection.entity';
 import { Event, EventStatus } from './modules/events/entities/event.entity';
 import { EventsController } from './modules/events/events.controller';
 import { EventsService } from './modules/events/events.service';
@@ -29,6 +32,7 @@ describe('Controller', () => {
   let categoriesController: CategoriesController;
   let teamsController: TeamsController;
   let eventsController: EventsController;
+  let collectionsController: CollectionsController;
 
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -47,7 +51,15 @@ describe('Controller', () => {
             return connection;
           },
         }),
-        TypeOrmModule.forFeature([Scope, Region, Category, Team, Event, User]),
+        TypeOrmModule.forFeature([
+          Scope,
+          Region,
+          Category,
+          Team,
+          Event,
+          Collection,
+          User,
+        ]),
       ],
       controllers: [
         ScopesController,
@@ -56,6 +68,7 @@ describe('Controller', () => {
         UsersController,
         TeamsController,
         EventsController,
+        CollectionsController,
       ],
       providers: [
         ScopesService,
@@ -64,6 +77,7 @@ describe('Controller', () => {
         UsersService,
         TeamsService,
         EventsService,
+        CollectionsService,
       ],
     }).compile();
 
@@ -74,6 +88,9 @@ describe('Controller', () => {
       module.get<CategoriesController>(CategoriesController);
     teamsController = module.get<TeamsController>(TeamsController);
     eventsController = module.get<EventsController>(EventsController);
+    collectionsController = module.get<CollectionsController>(
+      CollectionsController,
+    );
   });
 
   it('should be defined', async () => {
@@ -83,6 +100,7 @@ describe('Controller', () => {
     expect(categoriesController).toBeDefined();
     expect(teamsController).toBeDefined();
     expect(eventsController).toBeDefined();
+    expect(collectionsController).toBeDefined();
   });
 
   it('scopes', async () => {
@@ -143,6 +161,18 @@ describe('Controller', () => {
     await eventsController.update('1', {
       endAt: new Date(),
       status: EventStatus.Ended,
+    });
+  });
+
+  it('collections', async () => {
+    await collectionsController.create({
+      name: 'Shoes',
+    });
+    await collectionsController.create({
+      name: 'Clothes',
+    });
+    await collectionsController.create({
+      name: 'Equipments',
     });
   });
 

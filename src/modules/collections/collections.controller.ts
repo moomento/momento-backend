@@ -1,20 +1,33 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { CollectionsService } from './collections.service';
+import {
+  Query,
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Response,
+} from '@nestjs/common';
 import { CreateCollectionDto } from './dto/create-collection.dto';
 import { UpdateCollectionDto } from './dto/update-collection.dto';
+import { CollectionsService } from './collections.service';
 
+import { Response as Res } from 'express';
+import { PaginationDto } from '../../pagination/pagination.dto';
 @Controller('collections')
 export class CollectionsController {
   constructor(private readonly collectionsService: CollectionsService) {}
 
   @Post()
-  create(@Body() createCollectionDto: CreateCollectionDto) {
-    return this.collectionsService.create(createCollectionDto);
+  create(@Body() data: CreateCollectionDto) {
+    return this.collectionsService.create(data);
   }
 
   @Get()
-  findAll() {
-    return this.collectionsService.findAll();
+  async find(@Response() res: Res, @Query() data: PaginationDto) {
+    const [list, count] = await this.collectionsService.paginate(data);
+    return res.set({ 'x-total-count': count }).json(list);
   }
 
   @Get(':id')
@@ -23,8 +36,8 @@ export class CollectionsController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCollectionDto: UpdateCollectionDto) {
-    return this.collectionsService.update(+id, updateCollectionDto);
+  update(@Param('id') id: string, @Body() data: UpdateCollectionDto) {
+    return this.collectionsService.update(+id, data);
   }
 
   @Delete(':id')
