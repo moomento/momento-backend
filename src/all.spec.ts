@@ -5,25 +5,32 @@ import { createConnection } from 'typeorm';
 import configuration from './config/configuration';
 import { CategoriesController } from './modules/categories/categories.controller';
 import { CategoriesService } from './modules/categories/categories.service';
-import { Category } from './modules/categories/entities/category.entity';
+import { Category } from './entities/category.entity';
 import { CollectionsController } from './modules/collections/collections.controller';
 import { CollectionsService } from './modules/collections/collections.service';
-import { Collection } from './modules/collections/entities/collection.entity';
-import { Event, EventStatus } from './modules/events/entities/event.entity';
+import { Collection } from './entities/collection.entity';
+import { Event, EventStatus } from './entities/event.entity';
 import { EventsController } from './modules/events/events.controller';
 import { EventsService } from './modules/events/events.service';
-import { Region } from './modules/regions/entities/region.entity';
+import { Region } from './entities/region.entity';
 import { RegionsController } from './modules/regions/regions.controller';
 import { RegionsService } from './modules/regions/regions.service';
-import { Scope } from './modules/scopes/entities/scope.entity';
+import { Scope } from './entities/scope.entity';
 import { ScopesController } from './modules/scopes/scopes.controller';
 import { ScopesService } from './modules/scopes/scopes.service';
-import { Team } from './modules/teams/entities/team.entity';
+import { Team } from './entities/team.entity';
 import { TeamsController } from './modules/teams/teams.controller';
 import { TeamsService } from './modules/teams/teams.service';
-import { User } from './modules/users/entities/user.entity';
+import { User } from './entities/user.entity';
 import { UsersController } from './modules/users/users.controller';
 import { UsersService } from './modules/users/users.service';
+import { ItemsController } from './modules/items/items.controller';
+import { Item } from './entities/item.entity';
+import {
+  ItemAttribute,
+  ItemAttributeDisplayType,
+} from './entities/item-attribute.entity';
+import { ItemsService } from './modules/items/items.service';
 
 describe('Controller', () => {
   let scopesController: ScopesController;
@@ -33,6 +40,7 @@ describe('Controller', () => {
   let teamsController: TeamsController;
   let eventsController: EventsController;
   let collectionsController: CollectionsController;
+  let itemsController: ItemsController;
 
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -59,6 +67,8 @@ describe('Controller', () => {
           Event,
           Collection,
           User,
+          Item,
+          ItemAttribute,
         ]),
       ],
       controllers: [
@@ -69,6 +79,7 @@ describe('Controller', () => {
         TeamsController,
         EventsController,
         CollectionsController,
+        ItemsController,
       ],
       providers: [
         ScopesService,
@@ -78,6 +89,7 @@ describe('Controller', () => {
         TeamsService,
         EventsService,
         CollectionsService,
+        ItemsService,
       ],
     }).compile();
 
@@ -91,6 +103,7 @@ describe('Controller', () => {
     collectionsController = module.get<CollectionsController>(
       CollectionsController,
     );
+    itemsController = module.get<ItemsController>(ItemsController);
   });
 
   it('should be defined', async () => {
@@ -101,6 +114,7 @@ describe('Controller', () => {
     expect(teamsController).toBeDefined();
     expect(eventsController).toBeDefined();
     expect(collectionsController).toBeDefined();
+    expect(itemsController).toBeDefined();
   });
 
   it('scopes', async () => {
@@ -183,6 +197,62 @@ describe('Controller', () => {
     await usersController.update('1', {
       firstName: 'Nick',
       lastName: 'Jang',
+    });
+  });
+
+  it('items', async () => {
+    await itemsController.create({
+      name: 'Ronaldo`s shoes',
+      description: 'Cristiano Ronaldo`s shoes',
+      image: 'https://localhost/shoes-ronaldo.jpg',
+      eventId: 1,
+      collectionIds: [1, 2],
+      creatorId: 1,
+      ownerId: 1,
+      attributes: [
+        {
+          displayType: ItemAttributeDisplayType.Number,
+          traitType: 'speed',
+          value: '100',
+        },
+        {
+          displayType: ItemAttributeDisplayType.Number,
+          traitType: 'strength',
+          value: '100',
+        },
+        {
+          traitType: 'eye',
+          value: 'smile',
+        },
+      ],
+    });
+
+    await itemsController.update('1', {
+      name: 'Ronaldo`s shoes',
+      description: 'Cristiano Ronaldo`s shoes',
+      image: 'https://localhost/shoes-ronaldo.jpg',
+      eventId: 1,
+      collectionIds: [1, 2, 3],
+      attributes: [
+        {
+          id: 1,
+          displayType: ItemAttributeDisplayType.Number,
+          traitType: 'speed',
+          value: '100',
+          deleted: true,
+        },
+        {
+          id: 2,
+          displayType: ItemAttributeDisplayType.Number,
+          traitType: 'strength',
+          value: '120',
+        },
+        {
+          traitType: 'character',
+          value: 'dog',
+          rank: 4,
+        },
+      ],
     });
   });
 });

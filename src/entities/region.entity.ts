@@ -1,4 +1,4 @@
-import { Category } from '../../categories/entities/category.entity';
+import { Category } from './category.entity';
 import {
   Column,
   CreateDateColumn,
@@ -9,8 +9,8 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity('scopes')
-export class Scope {
+@Entity('regions')
+export class Region {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -18,10 +18,7 @@ export class Scope {
   name: string;
 
   @Column({ nullable: true, type: 'text' })
-  content?: string;
-
-  @OneToMany(() => Category, (category) => category.scope)
-  categories: Category[];
+  content: string;
 
   @CreateDateColumn()
   createdAt: Date;
@@ -31,4 +28,7 @@ export class Scope {
 
   @DeleteDateColumn()
   deletedAt?: Date;
+
+  @OneToMany(() => Category, (category) => category.scope)
+  categories: Category[];
 }

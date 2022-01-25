@@ -3,7 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { createConnection } from 'typeorm';
 import configuration from '../../config/configuration';
-import { User } from './entities/user.entity';
+import { User } from '../../entities/user.entity';
 import { UsersService } from './users.service';
 
 describe('UsersService', () => {

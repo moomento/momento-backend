@@ -5,7 +5,7 @@ import {
   IsNumber,
   IsString,
 } from 'class-validator';
-import { EventStatus } from '../entities/event.entity';
+import { EventStatus } from '../../../entities/event.entity';
 export class CreateEventDto {
   @IsString()
   @IsNotEmpty()

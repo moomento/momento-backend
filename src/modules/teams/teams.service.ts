@@ -4,7 +4,7 @@ import { ObjectLiteral, Repository } from 'typeorm';
 import { PaginationService } from '../../pagination/pagination.service';
 import { CreateTeamDto } from './dto/create-team.dto';
 import { UpdateTeamDto } from './dto/update-team.dto';
-import { Team } from './entities/team.entity';
+import { Team } from '../../entities/team.entity';
 
 @Injectable()
 export class TeamsService extends PaginationService {

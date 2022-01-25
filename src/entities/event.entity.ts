@@ -7,8 +7,8 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Category } from '../../categories/entities/category.entity';
-import { Team } from '../../teams/entities/team.entity';
+import { Category } from './category.entity';
+import { Team } from './team.entity';
 
 export enum EventStatus {
   Scheduled = 'scheduled',

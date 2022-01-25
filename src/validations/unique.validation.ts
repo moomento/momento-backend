@@ -1,13 +1,11 @@
-import { Not, ObjectLiteral, Repository, getRepository } from 'typeorm';
-
 import {
+  registerDecorator,
   ValidationArguments,
   ValidationOptions,
   ValidatorConstraint,
   ValidatorConstraintInterface,
-  registerDecorator,
 } from 'class-validator';
-import { User } from 'src/modules/users/entities/user.entity';
+import { getRepository, ObjectLiteral } from 'typeorm';
 
 export type ScopedValidationOptions = ValidationOptions & { scope?: string[] };
 

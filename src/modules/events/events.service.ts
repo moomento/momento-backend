@@ -4,7 +4,7 @@ import { ObjectLiteral, Repository } from 'typeorm';
 import { PaginationService } from '../../pagination/pagination.service';
 import { CreateEventDto } from './dto/create-event.dto';
 import { UpdateEventDto } from './dto/update-event.dto';
-import { Event } from './entities/event.entity';
+import { Event } from '../../entities/event.entity';
 
 @Injectable()
 export class EventsService extends PaginationService {

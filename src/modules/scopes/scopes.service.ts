@@ -5,7 +5,7 @@ import { PaginationService } from '../../pagination/pagination.service';
 import { ObjectLiteral, Repository } from 'typeorm';
 import { CreateScopeDto } from './dto/create-scope.dto';
 import { UpdateScopeDto } from './dto/update-scope.dto';
-import { Scope } from './entities/scope.entity';
+import { Scope } from '../../entities/scope.entity';
 
 @Injectable()
 export class ScopesService extends PaginationService {

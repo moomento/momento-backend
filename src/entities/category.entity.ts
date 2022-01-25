@@ -1,4 +1,4 @@
-import { Scope } from '../../scopes/entities/scope.entity';
+import { Scope } from './scope.entity';
 import {
   Entity,
   Tree,
@@ -12,9 +12,9 @@ import {
   DeleteDateColumn,
   OneToMany,
 } from 'typeorm';
-import { Region } from '../../regions/entities/region.entity';
-import { Team } from '../../teams/entities/team.entity';
-import { Event } from '../../events/entities/event.entity';
+import { Region } from './region.entity';
+import { Team } from './team.entity';
+import { Event } from './event.entity';
 
 @Entity('categories')
 @Tree('materialized-path')
@@ -40,10 +40,10 @@ export class Category {
   @Column({ nullable: true })
   regionId?: number;
 
-  @OneToMany(() => Category, (category) => category.teams)
+  @OneToMany(() => Team, (team) => team.category)
   teams: Team[];
 
-  @OneToMany(() => Category, (category) => category.events)
+  @OneToMany(() => Event, (event) => event.category)
   events: Event[];
 
   @TreeParent()

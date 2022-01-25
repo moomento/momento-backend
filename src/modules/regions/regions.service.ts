@@ -5,7 +5,7 @@ import { PaginationService } from '../../pagination/pagination.service';
 import { ObjectLiteral, Repository } from 'typeorm';
 import { CreateRegionDto } from './dto/create-region.dto';
 import { UpdateRegionDto } from './dto/update-region.dto';
-import { Region } from './entities/region.entity';
+import { Region } from '../../entities/region.entity';
 
 @Injectable()
 export class RegionsService extends PaginationService {
