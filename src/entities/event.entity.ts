@@ -1,3 +1,4 @@
+import { EventStatusEnum } from '../constants/enums';
 import {
   Column,
   CreateDateColumn,
@@ -9,13 +10,6 @@ import {
 } from 'typeorm';
 import { Category } from './category.entity';
 import { Team } from './team.entity';
-
-export enum EventStatus {
-  Scheduled = 'scheduled',
-  Live = 'live',
-  Ended = 'ended',
-  Postponed = 'postphoned',
-}
 
 @Entity('events')
 export class Event {
@@ -57,15 +51,10 @@ export class Event {
 
   @Column({
     type: 'enum',
-    enum: [
-      EventStatus.Scheduled,
-      EventStatus.Live,
-      EventStatus.Ended,
-      EventStatus.Postponed,
-    ],
-    default: EventStatus.Scheduled,
+    enum: EventStatusEnum,
+    default: EventStatusEnum.Scheduled,
   })
-  status: EventStatus;
+  status: EventStatusEnum;
 
   @CreateDateColumn()
   createdAt: Date;

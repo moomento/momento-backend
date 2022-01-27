@@ -8,11 +8,11 @@ import {
   IsString,
   IsUrl,
 } from 'class-validator';
-import { ItemAttributeDisplayType } from '../../../entities/item-attribute.entity';
+import { ItemAttributeDisplayEnum } from '../../../constants/enums';
 
 export class ItemAttributeDto {
-  @IsEnum(ItemAttributeDisplayType)
-  displayType?: ItemAttributeDisplayType;
+  @IsEnum(ItemAttributeDisplayEnum)
+  displayType?: ItemAttributeDisplayEnum;
 
   @IsString()
   traitType?: string;

@@ -5,7 +5,8 @@ import {
   IsNumber,
   IsString,
 } from 'class-validator';
-import { EventStatus } from '../../../entities/event.entity';
+import { EventStatusEnum } from '../../../constants/enums';
+
 export class CreateEventDto {
   @IsString()
   @IsNotEmpty()
@@ -23,8 +24,8 @@ export class CreateEventDto {
   @IsDate()
   endAt?: Date;
 
-  @IsEnum(EventStatus)
-  status: EventStatus;
+  @IsEnum(EventStatusEnum)
+  status: EventStatusEnum;
 
   @IsNumber()
   homeTeamId?: number;

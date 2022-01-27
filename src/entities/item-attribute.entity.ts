@@ -1,12 +1,6 @@
+import { ItemAttributeDisplayEnum } from '../constants/enums';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Item } from './item.entity';
-
-export enum ItemAttributeDisplayType {
-  BoostNumber = 'boost_number',
-  BoostPercentage = 'boost_percentage',
-  Number = 'number',
-  Date = 'date',
-}
 
 @Entity('items_attributes')
 export class ItemAttribute {
@@ -14,7 +8,7 @@ export class ItemAttribute {
   id: number;
 
   @Column({ nullable: true })
-  displayType: ItemAttributeDisplayType;
+  displayType: ItemAttributeDisplayEnum;
 
   @Column()
   traitType: string;

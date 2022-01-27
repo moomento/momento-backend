@@ -9,7 +9,7 @@ import { Category } from './entities/category.entity';
 import { CollectionsController } from './modules/collections/collections.controller';
 import { CollectionsService } from './modules/collections/collections.service';
 import { Collection } from './entities/collection.entity';
-import { Event, EventStatus } from './entities/event.entity';
+import { Event } from './entities/event.entity';
 import { EventsController } from './modules/events/events.controller';
 import { EventsService } from './modules/events/events.service';
 import { Region } from './entities/region.entity';
@@ -26,11 +26,9 @@ import { UsersController } from './modules/users/users.controller';
 import { UsersService } from './modules/users/users.service';
 import { ItemsController } from './modules/items/items.controller';
 import { Item } from './entities/item.entity';
-import {
-  ItemAttribute,
-  ItemAttributeDisplayType,
-} from './entities/item-attribute.entity';
+import { ItemAttribute } from './entities/item-attribute.entity';
 import { ItemsService } from './modules/items/items.service';
+import { EventStatusEnum, ItemAttributeDisplayEnum } from './constants/enums';
 
 describe('Controller', () => {
   let scopesController: ScopesController;
@@ -170,11 +168,11 @@ describe('Controller', () => {
       categoryId: 1,
       startAt: new Date(),
       duration: 90,
-      status: EventStatus.Scheduled,
+      status: EventStatusEnum.Scheduled,
     });
     await eventsController.update('1', {
       endAt: new Date(),
-      status: EventStatus.Ended,
+      status: EventStatusEnum.Ended,
     });
   });
 
@@ -211,12 +209,12 @@ describe('Controller', () => {
       ownerId: 1,
       attributes: [
         {
-          displayType: ItemAttributeDisplayType.Number,
+          displayType: ItemAttributeDisplayEnum.Number,
           traitType: 'speed',
           value: '100',
         },
         {
-          displayType: ItemAttributeDisplayType.Number,
+          displayType: ItemAttributeDisplayEnum.Number,
           traitType: 'strength',
           value: '100',
         },
@@ -236,14 +234,14 @@ describe('Controller', () => {
       attributes: [
         {
           id: 1,
-          displayType: ItemAttributeDisplayType.Number,
+          displayType: ItemAttributeDisplayEnum.Number,
           traitType: 'speed',
           value: '100',
           deleted: true,
         },
         {
           id: 2,
-          displayType: ItemAttributeDisplayType.Number,
+          displayType: ItemAttributeDisplayEnum.Number,
           traitType: 'strength',
           value: '120',
         },

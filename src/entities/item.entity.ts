@@ -10,9 +10,11 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Bid } from './bid.entity';
 import { Collection } from './collection.entity';
 import { Event } from './event.entity';
 import { ItemAttribute } from './item-attribute.entity';
+import { Offer } from './offer.entity';
 import { User } from './user.entity';
 
 @Entity('items')
@@ -68,6 +70,18 @@ export class Item {
 
   @Column({ nullable: true })
   tokenId: string;
+
+  @OneToMany(() => Offer, (offer) => offer.item)
+  offers: Offer[];
+
+  @OneToMany(() => Bid, (bid) => bid.item)
+  bids: Bid[];
+
+  @Column({ default: false })
+  onSale: boolean;
+
+  @Column({ nullable: true })
+  mintTxHash: string;
 
   @CreateDateColumn()
   createdAt: Date;
