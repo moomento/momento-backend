@@ -16,6 +16,7 @@ import { ItemAttributesModule } from './modules/item-attributes/item-attributes.
 import { UsersModule } from './modules/users/users.module';
 import { OffersModule } from './modules/offers/offers.module';
 import { BidsModule } from './modules/bids/bids.module';
+import { AdminsModule } from './modules/admins/admins.module';
 
 @Module({
   imports: [
@@ -44,6 +45,7 @@ import { BidsModule } from './modules/bids/bids.module';
     UsersModule,
     OffersModule,
     BidsModule,
+    AdminsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

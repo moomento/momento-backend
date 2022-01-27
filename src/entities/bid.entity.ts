@@ -1,13 +1,12 @@
-import { BidStatusEnum } from '../constants/enums';
 import {
   Column,
   CreateDateColumn,
-  DeleteDateColumn,
   Entity,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { BidStatusEnum } from '../constants/enums';
 import { Item } from './item.entity';
 import { Offer } from './offer.entity';
 import { User } from './user.entity';
