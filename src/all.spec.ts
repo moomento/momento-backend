@@ -29,6 +29,12 @@ import { Item } from './entities/item.entity';
 import { ItemAttribute } from './entities/item-attribute.entity';
 import { ItemsService } from './modules/items/items.service';
 import { EventStatusEnum, ItemAttributeDisplayEnum } from './constants/enums';
+import { OffersController } from './modules/offers/offers.controller';
+import { Offer } from './entities/offer.entity';
+import { OffersService } from './modules/offers/offers.service';
+import { BidsController } from './modules/bids/bids.controller';
+import { Bid } from './entities/bid.entity';
+import { BidsService } from './modules/bids/bids.service';
 
 describe('Controller', () => {
   let scopesController: ScopesController;
@@ -39,6 +45,8 @@ describe('Controller', () => {
   let eventsController: EventsController;
   let collectionsController: CollectionsController;
   let itemsController: ItemsController;
+  let offersController: OffersController;
+  let bidsController: BidsController;
 
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -67,6 +75,8 @@ describe('Controller', () => {
           User,
           Item,
           ItemAttribute,
+          Offer,
+          Bid,
         ]),
       ],
       controllers: [
@@ -78,6 +88,8 @@ describe('Controller', () => {
         EventsController,
         CollectionsController,
         ItemsController,
+        OffersController,
+        BidsController,
       ],
       providers: [
         ScopesService,
@@ -88,6 +100,8 @@ describe('Controller', () => {
         EventsService,
         CollectionsService,
         ItemsService,
+        OffersService,
+        BidsService,
       ],
     }).compile();
 
@@ -102,6 +116,8 @@ describe('Controller', () => {
       CollectionsController,
     );
     itemsController = module.get<ItemsController>(ItemsController);
+    offersController = module.get<OffersController>(OffersController);
+    bidsController = module.get<BidsController>(BidsController);
   });
 
   it('should be defined', async () => {
@@ -251,6 +267,24 @@ describe('Controller', () => {
           rank: 4,
         },
       ],
+    });
+  });
+
+  it('offers', async () => {
+    await offersController.create({
+      itemId: 1,
+      price: 1.5,
+      startAt: new Date(),
+      endAt: new Date(new Date().getTime() + 1000 * 3600),
+    });
+  });
+
+  it('bids', async () => {
+    await bidsController.create({
+      itemId: 1,
+      offerId: 1,
+      bidderId: 1,
+      price: 2,
     });
   });
 });

@@ -37,12 +37,6 @@ export class Bid {
   @Column({ type: 'float' })
   price: number;
 
-  @Column({ nullable: true })
-  startAt: Date;
-
-  @Column({ nullable: true })
-  endAt: Date;
-
   @Column({ type: 'enum', enum: BidStatusEnum, default: BidStatusEnum.Leading })
   bidStatus: BidStatusEnum;
 

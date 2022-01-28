@@ -38,7 +38,7 @@ export class Offer {
   @Column({
     type: 'enum',
     enum: OfferStatusEnum,
-    default: OfferStatusEnum.Closed,
+    default: OfferStatusEnum.Opened,
   })
   offerStatus: OfferStatusEnum;
 

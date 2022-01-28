@@ -1,26 +1,53 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { ObjectLiteral, Repository } from 'typeorm';
+import { Admin } from '../../entities/admin.entity';
+import { PaginationService } from '../../pagination/pagination.service';
 import { CreateAdminDto } from './dto/create-admin.dto';
 import { UpdateAdminDto } from './dto/update-admin.dto';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
-export class AdminsService {
-  create(createAdminDto: CreateAdminDto) {
-    return 'This action adds a new admin';
+export class AdminsService extends PaginationService {
+  constructor(
+    @InjectRepository(Admin)
+    private repository: Repository<Admin>,
+  ) {
+    super();
   }
 
-  findAll() {
-    return `This action returns all admins`;
+  getRepository(): Repository<ObjectLiteral> {
+    return this.repository;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} admin`;
+  async create(data: CreateAdminDto): Promise<Admin> {
+    if (data.password) {
+      data.password = await bcrypt.hash(data.password, 10);
+    }
+    const adminData = this.repository.create(data);
+    const admin = await this.repository.save(adminData);
+    return admin;
   }
 
-  update(id: number, updateAdminDto: UpdateAdminDto) {
-    return `This action updates a #${id} admin`;
+  findOne(id: number): Promise<Admin> {
+    return this.repository.findOne(id);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} admin`;
+  async update(id: number, data: UpdateAdminDto): Promise<Admin> {
+    if (data.password) {
+      data.password = await bcrypt.hash(data.password, 10);
+    }
+    await this.repository.update(id, data);
+    return await this.findOne(id);
+  }
+
+  async remove(id: number) {
+    const result = await this.repository.softDelete(id);
+    return result.affected > 0;
+  }
+
+  async destroy(id: number) {
+    const result = await this.repository.delete(id);
+    return result.affected > 0;
   }
 }

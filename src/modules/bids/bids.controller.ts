@@ -1,28 +1,33 @@
 import {
-  Controller,
-  Get,
-  Post,
+  Query,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Response,
 } from '@nestjs/common';
-import { BidsService } from './bids.service';
 import { CreateBidDto } from './dto/create-bid.dto';
 import { UpdateBidDto } from './dto/update-bid.dto';
+import { BidsService } from './bids.service';
+import { Response as Res } from 'express';
+import { PaginationDto } from '../../pagination/pagination.dto';
 
 @Controller('bids')
 export class BidsController {
   constructor(private readonly bidsService: BidsService) {}
 
   @Post()
-  create(@Body() createBidDto: CreateBidDto) {
-    return this.bidsService.create(createBidDto);
+  create(@Body() data: CreateBidDto) {
+    return this.bidsService.create(data);
   }
 
   @Get()
-  findAll() {
-    return this.bidsService.findAll();
+  async find(@Response() res: Res, @Query() data: PaginationDto) {
+    const [list, count] = await this.bidsService.paginate(data);
+    return res.set({ 'x-total-count': count }).json(list);
   }
 
   @Get(':id')
@@ -31,8 +36,8 @@ export class BidsController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBidDto: UpdateBidDto) {
-    return this.bidsService.update(+id, updateBidDto);
+  update(@Param('id') id: string, @Body() data: UpdateBidDto) {
+    return this.bidsService.update(+id, data);
   }
 
   @Delete(':id')

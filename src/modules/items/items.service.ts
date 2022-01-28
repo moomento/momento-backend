@@ -51,7 +51,6 @@ export class ItemsService extends PaginationService {
     const itemRet = await this.repository.findOne(item.id, {
       relations: ['collections', 'attributes'],
     });
-    console.log(itemRet);
     return itemRet;
   }
 
@@ -67,8 +66,7 @@ export class ItemsService extends PaginationService {
     const itemData = {
       ...rest,
     };
-    const ret = this.repository.create(itemData);
-    await this.repository.update(id, ret);
+    await this.repository.update(id, itemData);
     await Promise.all(
       attributesDto.map(async (attributeDto) => {
         if (attributeDto.id) {
@@ -88,7 +86,6 @@ export class ItemsService extends PaginationService {
     });
     itemRet.collections = collections;
     this.repository.save(itemRet, { reload: true });
-    console.log('update', itemRet);
     return itemRet;
   }
 
