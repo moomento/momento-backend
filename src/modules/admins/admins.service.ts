@@ -33,6 +33,12 @@ export class AdminsService extends PaginationService {
     return this.repository.findOne(id);
   }
 
+  findOneByUsername(username: string): Promise<Admin> {
+    return this.repository.findOne({
+      username,
+    });
+  }
+
   async update(id: number, data: UpdateAdminDto): Promise<Admin> {
     if (data.password) {
       data.password = await bcrypt.hash(data.password, 10);

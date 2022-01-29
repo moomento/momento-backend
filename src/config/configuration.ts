@@ -12,4 +12,8 @@ export default () => ({
     synchronize: process.env.TYPEORM_SYNCHRONIZE === 'true',
     dropSchema: process.env.TYPEORM_DROP_SCHEMA === 'true',
   },
+  jwt: {
+    secret: process.env.JWT_SECRET_KEY,
+    expiresIn: process.env.JWT_EXPIRATION_TIME,
+  },
 });

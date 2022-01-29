@@ -35,6 +35,13 @@ import { OffersService } from './modules/offers/offers.service';
 import { BidsController } from './modules/bids/bids.controller';
 import { Bid } from './entities/bid.entity';
 import { BidsService } from './modules/bids/bids.service';
+import { AdminsController } from './modules/admins/admins.controller';
+import { Admin } from './entities/admin.entity';
+import { AdminsService } from './modules/admins/admins.service';
+import { AuthAdminsController } from './modules/auth/auth-admins.controller';
+import { AuthAdminsService } from './modules/auth/auth-admins.service';
+import { JwtService } from '@nestjs/jwt';
+import { AppModule } from './app.module';
 
 describe('Controller', () => {
   let scopesController: ScopesController;
@@ -47,62 +54,12 @@ describe('Controller', () => {
   let itemsController: ItemsController;
   let offersController: OffersController;
   let bidsController: BidsController;
+  let adminsController: AdminsController;
+  let authAdminsController: AuthAdminsController;
 
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [
-        ConfigModule.forRoot({
-          load: [configuration],
-        }),
-        TypeOrmModule.forRootAsync({
-          imports: [ConfigModule],
-          inject: [ConfigService],
-          useFactory: (configService: ConfigService) => {
-            return configService.get('database');
-          },
-          connectionFactory: async (options) => {
-            const connection = await createConnection(options);
-            return connection;
-          },
-        }),
-        TypeOrmModule.forFeature([
-          Scope,
-          Region,
-          Category,
-          Team,
-          Event,
-          Collection,
-          User,
-          Item,
-          ItemAttribute,
-          Offer,
-          Bid,
-        ]),
-      ],
-      controllers: [
-        ScopesController,
-        RegionsController,
-        CategoriesController,
-        UsersController,
-        TeamsController,
-        EventsController,
-        CollectionsController,
-        ItemsController,
-        OffersController,
-        BidsController,
-      ],
-      providers: [
-        ScopesService,
-        RegionsService,
-        CategoriesService,
-        UsersService,
-        TeamsService,
-        EventsService,
-        CollectionsService,
-        ItemsService,
-        OffersService,
-        BidsService,
-      ],
+      imports: [AppModule],
     }).compile();
 
     usersController = module.get<UsersController>(UsersController);
@@ -118,6 +75,9 @@ describe('Controller', () => {
     itemsController = module.get<ItemsController>(ItemsController);
     offersController = module.get<OffersController>(OffersController);
     bidsController = module.get<BidsController>(BidsController);
+    adminsController = module.get<AdminsController>(AdminsController);
+    authAdminsController =
+      module.get<AuthAdminsController>(AuthAdminsController);
   });
 
   it('should be defined', async () => {
@@ -129,6 +89,10 @@ describe('Controller', () => {
     expect(eventsController).toBeDefined();
     expect(collectionsController).toBeDefined();
     expect(itemsController).toBeDefined();
+    expect(offersController).toBeDefined();
+    expect(bidsController).toBeDefined();
+    expect(adminsController).toBeDefined();
+    expect(authAdminsController).toBeDefined();
   });
 
   it('scopes', async () => {
@@ -286,5 +250,22 @@ describe('Controller', () => {
       bidderId: 1,
       price: 2,
     });
+  });
+
+  it('admins', async () => {
+    await adminsController.create({
+      firstName: 'Nick',
+      lastName: 'Jang',
+      username: 'nickjang',
+      password: 'test1234',
+    });
+  });
+
+  it('auth-admins', async () => {
+    const user = await authAdminsController.signin({
+      username: 'nickjang',
+      password: 'test1234',
+    });
+    console.log(user);
   });
 });

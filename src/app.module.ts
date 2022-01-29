@@ -5,18 +5,19 @@ import { createConnection } from 'typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import configuration from './config/configuration';
-import { ScopesModule } from './modules/scopes/scopes.module';
-import { CategoriesModule } from './modules/categories/categories.module';
-import { RegionsModule } from './modules/regions/regions.module';
-import { TeamsModule } from './modules/teams/teams.module';
-import { EventsModule } from './modules/events/events.module';
-import { CollectionsModule } from './modules/collections/collections.module';
-import { ItemsModule } from './modules/items/items.module';
-import { ItemAttributesModule } from './modules/item-attributes/item-attributes.module';
-import { UsersModule } from './modules/users/users.module';
-import { OffersModule } from './modules/offers/offers.module';
-import { BidsModule } from './modules/bids/bids.module';
 import { AdminsModule } from './modules/admins/admins.module';
+import { AuthAdminsModule } from './modules/auth/auth-admins.module';
+import { BidsModule } from './modules/bids/bids.module';
+import { CategoriesModule } from './modules/categories/categories.module';
+import { CollectionsModule } from './modules/collections/collections.module';
+import { EventsModule } from './modules/events/events.module';
+import { ItemAttributesModule } from './modules/item-attributes/item-attributes.module';
+import { ItemsModule } from './modules/items/items.module';
+import { OffersModule } from './modules/offers/offers.module';
+import { RegionsModule } from './modules/regions/regions.module';
+import { ScopesModule } from './modules/scopes/scopes.module';
+import { TeamsModule } from './modules/teams/teams.module';
+import { UsersModule } from './modules/users/users.module';
 
 @Module({
   imports: [
@@ -46,6 +47,7 @@ import { AdminsModule } from './modules/admins/admins.module';
     OffersModule,
     BidsModule,
     AdminsModule,
+    AuthAdminsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

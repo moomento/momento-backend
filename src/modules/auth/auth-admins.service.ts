@@ -1,16 +1,34 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Injectable } from '@nestjs/common';
-import { AdminService } from '../admins/admins.service';
+import { AdminsService } from '../admins/admins.service';
 import * as bcrypt from 'bcrypt';
+import { CreateAdminDto } from '../admins/dto/create-admin.dto';
+import { Admin } from 'src/entities/admin.entity';
+
+export interface JwtPayload {
+  username: string;
+}
 
 @Injectable()
-export class AuthAdminService {
-  constructor(private usersService: AdminService) {}
-  async validateUser(username: string, password: string): Promise<any> {
-    const user = await this.usersService.findOneByUsername(username);
+export class AuthAdminsService {
+  constructor(private adminsService: AdminsService) {}
+  async validateUsernameAndPassword(
+    username: string,
+    password: string,
+  ): Promise<Admin> {
+    const user = await this.adminsService.findOneByUsername(username);
     const { password: hash, ...result } = user;
     if (user && bcrypt.compare(password, hash)) {
-      return result;
+      return user;
     }
     return null;
+  }
+
+  validateUsername(username: string): Promise<Admin> {
+    return this.adminsService.findOneByUsername(username);
+  }
+
+  create(data: CreateAdminDto): Promise<Admin> {
+    return this.adminsService.create(data);
   }
 }
