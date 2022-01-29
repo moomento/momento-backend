@@ -1,8 +1,8 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import { CreateAdminDto } from '../admins/dto/create-admin.dto';
-import { AuthAdminDto } from './dto/auth-admin.dto';
-import { AuthAdminsService } from './auth-admins.service';
 import { JwtService } from '@nestjs/jwt';
+import { CreateAdminDto } from '../admins/dto/create-admin.dto';
+import { AuthAdminsService } from './auth-admins.service';
+import { AuthAdminDto } from './dto/auth-admin.dto';
 
 @Controller('auth-admins')
 export class AuthAdminsController {
@@ -12,7 +12,7 @@ export class AuthAdminsController {
   ) {}
 
   @Post('signup')
-  async register(@Body() data: CreateAdminDto) {
+  async signup(@Body() data: CreateAdminDto) {
     const user = await this.authAdminsService.create(data);
     if (user) {
       return this.signin(data);
