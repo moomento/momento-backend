@@ -1,23 +1,21 @@
 import {
-  Query,
   Body,
   Controller,
   Delete,
   Get,
   Param,
   Patch,
-  Post,
-  Response,
+  Post, Query, Response
 } from '@nestjs/common';
+import { Response as Res } from 'express';
+import { PaginationDto } from '../../pagination/pagination.dto';
 import { CreateScopeDto } from './dto/create-scope.dto';
 import { UpdateScopeDto } from './dto/update-scope.dto';
 import { ScopesService } from './scopes.service';
 
-import { Response as Res } from 'express';
-import { PaginationDto } from '../../pagination/pagination.dto';
 @Controller('scopes')
 export class ScopesController {
-  constructor(private readonly scopesService: ScopesService) {}
+  constructor(private readonly scopesService: ScopesService) { }
 
   @Post()
   create(@Body() data: CreateScopeDto) {
@@ -27,7 +25,10 @@ export class ScopesController {
   @Get()
   async find(@Response() res: Res, @Query() data: PaginationDto) {
     const [list, count] = await this.scopesService.paginate(data);
-    return res.set({ 'x-total-count': count }).json(list);
+    return res.json({
+      data: list,
+      total: count,
+    });
   }
 
   @Get(':id')

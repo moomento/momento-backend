@@ -266,6 +266,5 @@ describe('Controller', () => {
       username: 'nickjang',
       password: 'test1234',
     });
-    console.log(user);
   });
 });

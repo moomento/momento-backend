@@ -19,6 +19,10 @@ export class CategoriesService extends PaginationService {
     return this.repository;
   }
 
+  relations() {
+    return ['scope', 'region'];
+  }
+
   async create(data: CreateCategoryDto): Promise<Category> {
     const category = this.repository.create(data);
     await this.repository.save(category);

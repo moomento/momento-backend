@@ -3,4 +3,5 @@ export class PaginationDto {
   skip?: number;
   sort?: string;
   order?: string;
+  q: string;
 }

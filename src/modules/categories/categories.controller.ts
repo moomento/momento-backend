@@ -27,7 +27,7 @@ export class CategoriesController {
   @Get()
   async find(@Response() res: Res, @Query() data: PaginationDto) {
     const [list, count] = await this.categoriesService.paginate(data);
-    return res.set({ 'x-total-count': count }).json(list);
+    return res.json({ data: list, total: count });
   }
 
   @Get(':id')

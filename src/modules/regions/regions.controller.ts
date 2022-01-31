@@ -17,7 +17,7 @@ import { Response as Res } from 'express';
 import { PaginationDto } from '../../pagination/pagination.dto';
 @Controller('regions')
 export class RegionsController {
-  constructor(private readonly regionsService: RegionsService) {}
+  constructor(private readonly regionsService: RegionsService) { }
 
   @Post()
   create(@Body() data: CreateRegionDto) {
@@ -27,7 +27,7 @@ export class RegionsController {
   @Get()
   async find(@Response() res: Res, @Query() data: PaginationDto) {
     const [list, count] = await this.regionsService.paginate(data);
-    return res.set({ 'x-total-count': count }).json(list);
+    return res.json({ data: list, total: count });
   }
 
   @Get(':id')
