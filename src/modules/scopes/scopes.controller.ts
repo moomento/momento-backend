@@ -5,7 +5,9 @@ import {
   Get,
   Param,
   Patch,
-  Post, Query, Response
+  Post,
+  Query,
+  Response,
 } from '@nestjs/common';
 import { Response as Res } from 'express';
 import { PaginationDto } from '../../pagination/pagination.dto';
@@ -15,7 +17,7 @@ import { ScopesService } from './scopes.service';
 
 @Controller('scopes')
 export class ScopesController {
-  constructor(private readonly scopesService: ScopesService) { }
+  constructor(private readonly scopesService: ScopesService) {}
 
   @Post()
   create(@Body() data: CreateScopeDto) {

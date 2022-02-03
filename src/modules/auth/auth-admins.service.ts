@@ -17,6 +17,9 @@ export class AuthAdminsService {
     password: string,
   ): Promise<Admin> {
     const user = await this.adminsService.findOneByUsername(username);
+    if (!user) {
+      return null;
+    }
     const { password: hash } = user;
     if (user && bcrypt.compare(password, hash)) {
       return user;
