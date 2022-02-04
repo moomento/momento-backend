@@ -1,8 +1,13 @@
-import { IsNotEmpty, IsString } from 'class-validator';
-import { Unique } from '../../../validations/unique.validation';
-import { Match } from '../../../validations/match.validation';
+import { ArgumentsHost } from '@nestjs/common';
+import { IsNotEmpty, IsString, ValidationArguments } from 'class-validator';
+import { Equal, FindOperator, Not } from 'typeorm';
 import { Admin } from '../../../entities/admin.entity';
+import { Match } from '../../../validations/match.validation';
+import { Unique } from '../../../validations/unique.validation';
+
 export class CreateAdminDto {
+  id?: number;
+
   @IsString()
   @IsNotEmpty()
   firstName: string;
@@ -13,7 +18,21 @@ export class CreateAdminDto {
 
   @IsString()
   @IsNotEmpty()
-  @Unique({ entity: Admin })
+  @Unique({
+    entity: Admin,
+    where: (args: ValidationArguments) => {
+      const { object } = args;
+      const data = object as CreateAdminDto;
+      const where = { username: data.username } as {
+        username: string;
+        id?: FindOperator<number>;
+      };
+      if (data.id) {
+        where.id = Not(Equal(data.id));
+      }
+      return where;
+    },
+  })
   username: string;
 
   @IsString()

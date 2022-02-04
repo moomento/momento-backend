@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { InjectConnection } from '@nestjs/typeorm';
 import {
   registerDecorator,
   ValidationArguments,
@@ -8,7 +7,6 @@ import {
   ValidatorConstraintInterface,
 } from 'class-validator';
 import {
-  Connection,
   EntitySchema,
   FindConditions,
   getConnection,
@@ -24,7 +22,7 @@ interface UniqueValidationArguments<E> extends ValidationArguments {
 }
 
 export function Unique(
-  property: { entity: any },
+  property: { entity: any; where?: any },
   validationOptions?: ValidationOptions,
 ) {
   return (object: any, propertyName: string) => {
@@ -32,7 +30,7 @@ export function Unique(
       target: object.constructor,
       propertyName,
       options: validationOptions,
-      constraints: [property.entity],
+      constraints: [property.entity, property.where],
       validator: UniqueConstraint,
     });
   };
@@ -42,15 +40,15 @@ export function Unique(
 @Injectable()
 export class UniqueConstraint implements ValidatorConstraintInterface {
   public async validate<E>(value: string, args: UniqueValidationArguments<E>) {
-    const [EntityClass, findCondition = args.property] = args.constraints;
+    const [EntityClass, where = args.property] = args.constraints;
     const repository = getConnection().getRepository(EntityClass);
     return (
       (await repository.count({
         where:
-          typeof findCondition === 'function'
-            ? findCondition(args)
+          typeof where === 'function'
+            ? where(args)
             : {
-                [findCondition || args.property]: value,
+                [where || args.property]: value,
               },
       })) <= 0
     );
