@@ -8,14 +8,17 @@ import {
   Delete,
   Response,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { Response as Res } from 'express';
 import { PaginationDto } from '../../pagination/pagination.dto';
 import { TeamsService } from './teams.service';
 import { CreateTeamDto } from './dto/create-team.dto';
 import { UpdateTeamDto } from './dto/update-team.dto';
+import { AuthAdminGuard } from '../auth/auth-admins.guard';
 
 @Controller('teams')
+@UseGuards(new AuthAdminGuard())
 export class TeamsController {
   constructor(private readonly teamsService: TeamsService) {}
 

@@ -8,14 +8,17 @@ import {
   Delete,
   Response,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { Response as Res } from 'express';
 import { PaginationDto } from '../../pagination/pagination.dto';
+import { AuthAdminGuard } from '../auth/auth-admins.guard';
 import { CategoriesService } from './categories.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 
 @Controller('categories')
+@UseGuards(new AuthAdminGuard())
 export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}
 

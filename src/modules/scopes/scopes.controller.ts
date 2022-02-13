@@ -8,14 +8,17 @@ import {
   Post,
   Query,
   Response,
+  UseGuards,
 } from '@nestjs/common';
 import { Response as Res } from 'express';
 import { PaginationDto } from '../../pagination/pagination.dto';
+import { AuthAdminGuard } from '../auth/auth-admins.guard';
 import { CreateScopeDto } from './dto/create-scope.dto';
 import { UpdateScopeDto } from './dto/update-scope.dto';
 import { ScopesService } from './scopes.service';
 
 @Controller('scopes')
+@UseGuards(new AuthAdminGuard())
 export class ScopesController {
   constructor(private readonly scopesService: ScopesService) {}
 

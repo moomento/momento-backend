@@ -6,7 +6,6 @@ import {
   Post,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { exit } from 'process';
 import { CreateAdminDto } from '../admins/dto/create-admin.dto';
 import { AuthAdminsService } from './auth-admins.service';
 import { AuthAdminDto } from './dto/auth-admin.dto';

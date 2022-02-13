@@ -1,5 +1,4 @@
 import {
-  Query,
   Body,
   Controller,
   Delete,
@@ -7,17 +6,21 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   Response,
+  UseGuards,
 } from '@nestjs/common';
+import { Response as Res } from 'express';
+import { PaginationDto } from '../../pagination/pagination.dto';
+import { AuthAdminGuard } from '../auth/auth-admins.guard';
 import { CreateRegionDto } from './dto/create-region.dto';
 import { UpdateRegionDto } from './dto/update-region.dto';
 import { RegionsService } from './regions.service';
 
-import { Response as Res } from 'express';
-import { PaginationDto } from '../../pagination/pagination.dto';
 @Controller('regions')
+@UseGuards(new AuthAdminGuard())
 export class RegionsController {
-  constructor(private readonly regionsService: RegionsService) { }
+  constructor(private readonly regionsService: RegionsService) {}
 
   @Post()
   create(@Body() data: CreateRegionDto) {
